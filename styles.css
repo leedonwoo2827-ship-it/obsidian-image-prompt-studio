@@ -1,0 +1,103 @@
+.ipo-root {
+	padding: 12px;
+	font-size: 13px;
+	color: var(--text-normal);
+}
+
+.ipo-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--background-modifier-border);
+	margin-bottom: 12px;
+}
+
+.ipo-header-icon {
+	color: #7c3aed;
+}
+
+.ipo-header-title {
+	font-weight: 600;
+	font-size: 15px;
+}
+
+.ipo-section {
+	margin-bottom: 16px;
+}
+
+.ipo-section-title {
+	margin: 0 0 8px 0;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.ipo-empty {
+	font-size: 12px;
+	color: var(--text-faint);
+	padding: 6px 0;
+}
+
+.ipo-row {
+	padding: 8px 10px;
+	margin-bottom: 6px;
+	border-radius: 6px;
+	background: var(--background-secondary);
+	border-left: 3px solid var(--background-modifier-border);
+}
+
+.ipo-row.ipo-in-progress {
+	border-left-color: #f59e0b;
+}
+
+.ipo-row.ipo-success {
+	border-left-color: #22c55e;
+}
+
+.ipo-row.ipo-failure {
+	border-left-color: #ef4444;
+}
+
+.ipo-row-top {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.ipo-row-icon {
+	flex-shrink: 0;
+}
+
+.ipo-row-title {
+	font-weight: 500;
+	word-break: break-all;
+}
+
+.ipo-row-stage {
+	font-size: 12px;
+	color: var(--text-muted);
+	margin-top: 4px;
+}
+
+.ipo-row-links {
+	font-size: 12px;
+	margin-top: 6px;
+	color: var(--text-muted);
+}
+
+.ipo-link {
+	color: var(--text-accent);
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.ipo-link:hover {
+	text-decoration: underline;
+}
+
+.ipo-error {
+	font-size: 12px;
+	color: #ef4444;
+	margin-top: 4px;
+}
