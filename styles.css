@@ -22,6 +22,39 @@
 	font-size: 15px;
 }
 
+.ipo-actions {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 14px;
+}
+
+.ipo-btn {
+	flex: 1;
+	padding: 6px 10px;
+	font-size: 12px;
+	border-radius: 6px;
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+	color: var(--text-normal);
+	cursor: pointer;
+}
+
+.ipo-btn:hover {
+	background: var(--background-modifier-hover);
+}
+
+.ipo-btn-primary {
+	background: #7c3aed;
+	border-color: #7c3aed;
+	color: #fff;
+	font-weight: 600;
+}
+
+.ipo-btn-primary:hover {
+	background: #6d28d9;
+	border-color: #6d28d9;
+}
+
 .ipo-section {
 	margin-bottom: 16px;
 }

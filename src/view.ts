@@ -3,13 +3,20 @@ import { BRANDING } from "./branding";
 import type { Store, StoreState, InProgressTask, HistoryItem } from "./store";
 import { formatClockHM } from "./utils";
 
+export interface ViewActions {
+	runActive: () => void;
+	openPicker: () => void;
+}
+
 export class ImagePromptView extends ItemView {
 	private store: Store;
+	private actions: ViewActions;
 	private unsubscribe: (() => void) | null = null;
 
-	constructor(leaf: WorkspaceLeaf, store: Store) {
+	constructor(leaf: WorkspaceLeaf, store: Store, actions: ViewActions) {
 		super(leaf);
 		this.store = store;
+		this.actions = actions;
 	}
 
 	getViewType(): string {
@@ -45,8 +52,25 @@ export class ImagePromptView extends ItemView {
 		setIcon(iconEl, BRANDING.ribbonIcon);
 		header.createSpan({ cls: "ipo-header-title", text: BRANDING.viewTitle });
 
+		this.renderActions(root);
 		this.renderInProgress(root, state.inProgress);
 		this.renderHistory(root, state.history);
+	}
+
+	private renderActions(root: HTMLElement): void {
+		const bar = root.createDiv({ cls: "ipo-actions" });
+
+		const primary = bar.createEl("button", {
+			cls: "ipo-btn ipo-btn-primary",
+			text: "현재 노트로 생성",
+		});
+		primary.addEventListener("click", () => this.actions.runActive());
+
+		const secondary = bar.createEl("button", {
+			cls: "ipo-btn",
+			text: "파일 선택",
+		});
+		secondary.addEventListener("click", () => this.actions.openPicker());
 	}
 
 	private renderInProgress(root: HTMLElement, tasks: InProgressTask[]): void {
@@ -62,10 +86,11 @@ export class ImagePromptView extends ItemView {
 		for (const t of tasks) {
 			const row = section.createDiv({ cls: "ipo-row ipo-in-progress" });
 			row.createDiv({ cls: "ipo-row-title", text: t.fileName });
-			row.createDiv({
-				cls: "ipo-row-stage",
-				text: `[${t.stageIndex}/${t.totalStages}] ${t.stage}...`,
-			});
+			const stageText =
+				typeof t.chunkCount === "number" && t.chunkCount > 0
+					? `[${t.stageIndex}/${t.totalStages}] ${t.stage}... · ${t.chunkCount} chunks`
+					: `[${t.stageIndex}/${t.totalStages}] ${t.stage}...`;
+			row.createDiv({ cls: "ipo-row-stage", text: stageText });
 		}
 	}
 

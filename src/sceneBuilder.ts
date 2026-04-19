@@ -28,6 +28,7 @@ export interface BuildOptions {
 	targetScenes: string;
 	narrationSeconds: number;
 	manuscript: string;
+	onChunk?: (chunkCount: number) => void;
 }
 
 export async function buildScenes(
@@ -48,6 +49,7 @@ export async function buildScenes(
 		model: opts.model,
 		system,
 		prompt: user,
+		onChunk: opts.onChunk,
 	});
 
 	const repaired = repairPackage(parsed, opts);

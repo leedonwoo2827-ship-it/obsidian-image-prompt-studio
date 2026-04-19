@@ -13,6 +13,7 @@ export interface InProgressTask {
 	stageIndex: number;
 	totalStages: number;
 	startedAt: number;
+	chunkCount?: number;
 	errorMessage?: string;
 }
 
@@ -70,6 +71,14 @@ export class Store {
 		if (!task) return;
 		task.stage = stage;
 		task.stageIndex = stageIndex;
+		task.chunkCount = undefined;
+		this.emit();
+	}
+
+	updateChunkCount(id: string, chunkCount: number): void {
+		const task = this.state.inProgress.find((t) => t.id === id);
+		if (!task) return;
+		task.chunkCount = chunkCount;
 		this.emit();
 	}
 

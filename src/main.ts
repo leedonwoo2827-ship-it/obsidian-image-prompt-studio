@@ -26,7 +26,10 @@ export default class ImagePromptPlugin extends Plugin {
 	async onload(): Promise<void> {
 		await this.loadSettings();
 
-		this.registerView(BRANDING.viewType, (leaf) => new ImagePromptView(leaf, this.store));
+		this.registerView(BRANDING.viewType, (leaf) => new ImagePromptView(leaf, this.store, {
+			runActive: () => this.runActiveFile(),
+			openPicker: () => this.openFilePicker(),
+		}));
 
 		this.addRibbonIcon(BRANDING.ribbonIcon, BRANDING.ribbonTooltip, async () => {
 			await this.activateView();
@@ -56,11 +59,7 @@ export default class ImagePromptPlugin extends Plugin {
 		this.addCommand({
 			id: "generate-from-picked-note",
 			name: "이미지 프롬프트 생성 (파일 선택)",
-			callback: () => {
-				new FilePickerModal(this.app, async (file) => {
-					await this.runGeneration(file);
-				}).open();
-			},
+			callback: () => this.openFilePicker(),
 		});
 
 		this.addSettingTab(new ImagePromptSettingTab(this.app, this));
@@ -107,6 +106,21 @@ export default class ImagePromptPlugin extends Plugin {
 		this.app.workspace.revealLeaf(leaf);
 	}
 
+	runActiveFile(): void {
+		const file = this.app.workspace.getActiveFile();
+		if (!file || file.extension !== "md") {
+			new Notice("원고로 쓸 마크다운 노트를 먼저 여세요.");
+			return;
+		}
+		void this.runGeneration(file);
+	}
+
+	openFilePicker(): void {
+		new FilePickerModal(this.app, async (file) => {
+			await this.runGeneration(file);
+		}).open();
+	}
+
 	async runGeneration(file: TFile): Promise<void> {
 		const taskId = this.store.startTask(file.basename);
 		await this.activateView();
@@ -149,6 +163,7 @@ export default class ImagePromptPlugin extends Plugin {
 				targetScenes: this.settings.targetScenes,
 				narrationSeconds: this.settings.narrationSeconds,
 				manuscript,
+				onChunk: (count) => this.store.updateChunkCount(taskId, count),
 			}).catch(async (e) => {
 				const err = e as Error & { raw?: string };
 				if (err.raw) {

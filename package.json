@@ -1,6 +1,6 @@
 {
   "name": "image-prompt-obsidian",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "원고를 FlowGenie용 이미지 프롬프트 JSON/TXT로 변환하는 Obsidian 플러그인 + 파생 스타터",
   "main": "main.js",
   "scripts": {
