@@ -42,7 +42,7 @@ https://obsidian.md/download
 
 ### 방법 B. BRAT (업데이트 자동화, 개발 경험 있는 분용)
 
-BRAT 플러그인 설치 → `Add Beta Plugin` → `leedonwoo2827-ship-it/obsidian-image-prompt` (또는 본인 저장소 URL) 입력.
+BRAT 플러그인 설치 → `Add Beta Plugin` → `leedonwoo2827-ship-it/obsidian-image-prompt-studio` 입력.
 
 ---
 
